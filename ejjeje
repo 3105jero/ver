@@ -1,11 +1,12 @@
-def agregar_producto (inventarios,agregarproductonombre,agregarautor,agregacategoria,agregarproductoprecio,agregarproductocantidad,ventas):
+def agregar_producto (inventarios,agregarproductonombre,agregarautor,agregacategoria,agregarproductoprecio,agregarproductocantidad,ventas,fecha):
     producto = {
             'nombre':agregarproductonombre,
             'autor':agregarautor,
             'categoria':agregacategoria,
             'precio':agregarproductoprecio,
             'cantidad':agregarproductocantidad,
-            'ventas':ventas
+            'ventas':ventas,
+            'fecha':fecha
         }
     inventarios.append(producto)
 
@@ -24,22 +25,19 @@ def buscar_producto(inventarios,buscador):
             else:
                     print ("producto no encontrado")
 
-def actualizar_producto(inventarios,encontrado,cantnew,ventastotal):
+def actualizar_producto(inventarios,encontrado,cantnew,ventastotal,vend):
     if inventarios==[]:
             print("inventario vacio,recuerda ingresar un producto")
     else:
-        ventastotal=+cantnew
+        
         for e in inventarios:
             if encontrado==e['nombre']:
 
-                cantnew=e['cantidad']-cantnew
-                if ventastotal!=0:
-                    for js in inventarios:
-                        js.update({'ventas':ventastotal})
-                        print(f"ventas totales por el momento son {js['ventas']}")
-
-
-                e.update({'cantidad':cantnew})
+                ventastotal=e['ventas']+cantnew
+                vend=e['cantidad']-cantnew
+                e.update({'cantidad':vend})
+                e.update({'ventas':ventastotal})
+                print(f"ventas totales por el momento son {e['ventas']}")
 
             else:
                 print ("producto no encontrado")
@@ -60,45 +58,71 @@ def calcular_estadisticas(inventarios):
     preciofinal=0
     preciofinal2=0
     preciofina=0
+    descuento=input("tiene descuento? ")
     estadistica=input("ingrese el nombre del producto al que le quiere sacar el valor total del inventario / todos")
     if inventarios==[]:
         print("inventario vacio,recuerda ingresar un producto")
     else:
-        for esta in inventarios:
-            if estadistica == esta['nombre']:
-                valortotal=esta['precio']
-                cantidadtotal=esta['cantidad']
-                preciofinal=valortotal*cantidadtotal
-                print(f"producto: {esta['nombre']} | valor: {esta['precio']} | cantidad: {esta['cantidad']} | su valor total es {preciofinal}")
-            elif estadistica=="todos":
-                    preciofina= esta['cantidad']*esta['precio']
-                    preciofinal2+=preciofina
-                    cantidadtotal+=esta['cantidad']
-            maximovalor=None
-            maximocantidad=None
-            nameva=""
-            nameca=""
-            for maxi in inventarios:
-                if maximovalor is None or maxi['precio']>maximovalor:
-                    maximovalor=maxi['precio']
-                    nameva=maxi['nombre']
-                if maximocantidad is None or maxi ['cantidad']>maximocantidad:
-                        maximocantidad=maxi['cantidad'] 
-                        nameca=maxi['nombre']
+        if descuento=="no":
+            for esta in inventarios:
+                if estadistica == esta['nombre']:
+                    valortotal=esta['precio']
+                    cantidadtotal=esta['cantidad']
+                    preciofinal=valortotal*cantidadtotal
+                    print(f"producto: {esta['nombre']} | valor: {esta['precio']} | cantidad: {esta['cantidad']} | su valor total es {preciofinal}")
+                elif estadistica=="todos":
+                        preciofina= esta['cantidad']*esta['precio']
+                        preciofinal2+=preciofina
+                        cantidadtotal+=esta['cantidad']
+                maximovalor=None
+                maximocantidad=None
+                nameva=""
+                nameca=""
+                for maxi in inventarios:
+                    if maximovalor is None or maxi['precio']>maximovalor:
+                        maximovalor=maxi['precio']
+                        nameva=maxi['nombre']
+                    if maximocantidad is None or maxi ['cantidad']>maximocantidad:
+                            maximocantidad=maxi['cantidad'] 
+                            nameca=maxi['nombre']
 
-                productos_ordenados = sorted(inventarios, key=lambda x: x['precio'], reverse=True)
-                top_3_mas_caros = productos_ordenados[:3]
+                    productos_ordenados = sorted(inventarios, key=lambda x: x['precio'], reverse=True)
+                    top_3_mas_caros = productos_ordenados[:3]
+            print(f"el producto con mayor precio es: {nameva} | valor: {maximovalor} ")
+            print(f"el producto con mayor cantidad es: {nameca} | cantidad: {maximocantidad} ")
+            print(f"hay un total de {cantidadtotal} de productos, y en total con todos los productos tienes {preciofinal2} a la venta")
+            print(f"sus tres productos mas costosos son= {top_3_mas_caros}")
+        if descuento == "si":
+            for esta in inventarios:
+                if estadistica == esta['nombre']:
+                    valortotal=esta['precio']
+                    cantidadtotal=esta['cantidad']
+                    preciofinal=valortotal*cantidadtotal
+                    print(f"producto: {esta['nombre']} | valor: {esta['precio']} | cantidad: {esta['cantidad']} | su valor total es {preciofinal}")
+                elif estadistica=="todos":
+                        preciofina= esta['cantidad']*esta['precio']
+                        preciofinal2+=preciofina
+                        cantidadtotal+=esta['cantidad']
+                maximovalor=float(0)
+                maximocantidad=float(0)
+                nameva=""
+                nameca=""
+                for maxi in inventarios:
+                    if maximovalor is 0 or maxi['precio']>maximovalor:
+                        maximovalor=maxi['precio']
+                        nameva=maxi['nombre']
+                    if maximocantidad is 0 or maxi ['cantidad']>maximocantidad:
+                            maximocantidad=maxi['cantidad'] 
+                            nameca=maxi['nombre']
+
+                    productos_ordenados = sorted(inventarios, key=lambda x: x['precio'], reverse=True)
+                    top_3_mas_caros = productos_ordenados[:3]
 
 
-
-
-
-        print(f"el producto con mayor precio es: {nameva} | valor: {maximovalor} ")
-        print(f"el producto con mayor cantidad es: {nameca} | cantidad: {maximocantidad} ")
-        print(f"hay un total de {cantidadtotal} de productos, y en total con todos los productos tienes {preciofinal2} a la venta")
-        print(f"sus tres productos mas costosos son= {top_3_mas_caros}")
-
-
+            print(f"el producto con mayor precio es: {nameva*0.90} | valor: {maximovalor*0.90} ")
+            print(f"el producto con mayor cantidad es: {nameca} | cantidad: {maximocantidad} ")
+            print(f"hay un total de {cantidadtotal} de productos, y en total con todos los productos tienes {preciofinal2*0.90} a la venta")
+            print(f"sus tres productos mas costosos son= {top_3_mas_caros}")
 
 
 
