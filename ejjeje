@@ -192,3 +192,43 @@ while True:
 
 
 
+
+
+
+if descuento == "si":
+    for esta in inventarios:
+        if estadistica == esta['nombre']:
+            valortotal=esta['precio']
+            cantidadtotal=esta['cantidad']
+            preciofinal=valortotal*cantidadtotal
+            print(f"producto: {esta['nombre']} | valor: {esta['precio']} | cantidad: {esta['cantidad']} | su valor total es {preciofinal}")
+        elif estadistica=="todos":
+                preciofina= esta['cantidad']*esta['precio']
+                preciofinal2+=preciofina
+                cantidadtotal+=esta['cantidad']
+
+    # --- ARREGLO: los máximos deben ir fuera del for anterior ---
+    maximovalor=0
+    maximocantidad=0
+    nameva=""
+    nameca=""
+
+    for maxi in inventarios:
+        if maxi['precio'] > maximovalor:
+            maximovalor=maxi['precio']
+            nameva=maxi['nombre']
+        if maxi ['cantidad'] > maximocantidad:
+                maximocantidad=maxi['cantidad'] 
+                nameca=maxi['nombre']
+
+    # --- ARREGLO: también debe ir fuera ---
+    productos_ordenados = sorted(inventarios, key=lambda x: x['precio'], reverse=True)
+    top_3_mas_caros = productos_ordenados[:3]
+
+    print(f"el producto con mayor precio es: {nameva} | valor: {maximovalor*0.90} ")
+    print(f"el producto con mayor cantidad es: {nameca} | cantidad: {maximocantidad} ")
+    print(f"hay un total de {cantidadtotal} de productos, y en total con todos los productos tienes {preciofinal2*0.90} a la venta")
+    print(f"sus tres productos mas costosos son= {top_3_mas_caros}")
+
+
+
