@@ -1,0 +1,170 @@
+def agregar_producto (inventarios,agregarproductonombre,agregarautor,agregacategoria,agregarproductoprecio,agregarproductocantidad,ventas):
+    producto = {
+            'nombre':agregarproductonombre,
+            'autor':agregarautor,
+            'categoria':agregacategoria,
+            'precio':agregarproductoprecio,
+            'cantidad':agregarproductocantidad,
+            'ventas':ventas
+        }
+    inventarios.append(producto)
+
+def mostrar_inventario(inventarios):
+    if inventarios==[]:
+            print("inventario vacio,recuerda ingresar un producto")
+
+    else:
+        for i in inventarios:
+            print(f"producto: {i['nombre']} | autor: {i['autor']} | categoria: {i['categoria']} | valor: {i['precio']} | cantidad: {i['cantidad']}")
+
+def buscar_producto(inventarios,buscador):
+    for g in inventarios:
+            if buscador == g ['nombre']:
+                print(f"producto: {g['nombre']} | autor: {g['autor']} | categoria: {g['categoria']} | valor: {g['precio']} | cantidad: {g['cantidad']}")
+            else:
+                    print ("producto no encontrado")
+
+def actualizar_producto(inventarios,encontrado,cantnew,ventastotal):
+    if inventarios==[]:
+            print("inventario vacio,recuerda ingresar un producto")
+    else:
+        ventastotal=+cantnew
+        for e in inventarios:
+            if encontrado==e['nombre']:
+
+                cantnew=e['cantidad']-cantnew
+                if ventastotal!=0:
+                    for js in inventarios:
+                        js.update({'ventas':ventastotal})
+                        print(f"ventas totales por el momento son {js['ventas']}")
+
+
+                e.update({'cantidad':cantnew})
+
+            else:
+                print ("producto no encontrado")
+
+def eliminar_producto(inventarios,eliminado):
+    if inventarios==[]:
+        print("inventario vacio,recuerda ingresar un producto")
+    else:
+        for eli in inventarios:
+            if eliminado == eli['nombre']:
+                inventarios.remove(eli)
+            else:
+                print ("producto no encontrado")
+
+def calcular_estadisticas(inventarios):
+    valortotal=0
+    cantidadtotal=0
+    preciofinal=0
+    preciofinal2=0
+    preciofina=0
+    estadistica=input("ingrese el nombre del producto al que le quiere sacar el valor total del inventario / todos")
+    if inventarios==[]:
+        print("inventario vacio,recuerda ingresar un producto")
+    else:
+        for esta in inventarios:
+            if estadistica == esta['nombre']:
+                valortotal=esta['precio']
+                cantidadtotal=esta['cantidad']
+                preciofinal=valortotal*cantidadtotal
+                print(f"producto: {esta['nombre']} | valor: {esta['precio']} | cantidad: {esta['cantidad']} | su valor total es {preciofinal}")
+            elif estadistica=="todos":
+                    preciofina= esta['cantidad']*esta['precio']
+                    preciofinal2+=preciofina
+                    cantidadtotal+=esta['cantidad']
+            maximovalor=None
+            maximocantidad=None
+            nameva=""
+            nameca=""
+            for maxi in inventarios:
+                if maximovalor is None or maxi['precio']>maximovalor:
+                    maximovalor=maxi['precio']
+                    nameva=maxi['nombre']
+                if maximocantidad is None or maxi ['cantidad']>maximocantidad:
+                        maximocantidad=maxi['cantidad'] 
+                        nameca=maxi['nombre']
+
+                productos_ordenados = sorted(inventarios, key=lambda x: x['precio'], reverse=True)
+                top_3_mas_caros = productos_ordenados[:3]
+
+
+
+
+
+        print(f"el producto con mayor precio es: {nameva} | valor: {maximovalor} ")
+        print(f"el producto con mayor cantidad es: {nameca} | cantidad: {maximocantidad} ")
+        print(f"hay un total de {cantidadtotal} de productos, y en total con todos los productos tienes {preciofinal2} a la venta")
+        print(f"sus tres productos mas costosos son= {top_3_mas_caros}")
+
+
+
+
+
+
+-----------
+
+
+
+import servicios
+
+inventarios=[]
+
+
+while True:
+    print("1.agregar producto")
+    print("2.mostrar lista de productos")
+    print("3.buscar producto por el nombre")
+    print("4.vender producto")
+    print("5.eliminar producto")
+    print("6.calcular estadisticas")
+    print("7.salir")
+    ventastotal=0
+
+
+
+    try:
+        opcion=int(input("que opcion desea? "))
+        if opcion<0 and opcion>7:
+            print("error, solo numeros del 1 al 7")
+        else:
+            match opcion:
+                case 1:
+                    agregarproductonombre=input("dijite el nombre del producto que desea agregar: ")
+                    agregarautor=input("dijite el autor: ")
+                    agregacategoria=input("a que categoria pertenece el producto: ")
+                    agregarproductoprecio=float(input("dijite el precio del producto que desee agregar: "))
+                    agregarproductocantidad=int(input("dijite la cantidad del producto que desee agregar: "))
+                    ventas=0
+                    
+
+
+                    servicios.agregar_producto(inventarios,agregarproductonombre,agregarautor,agregacategoria,agregarproductoprecio,agregarproductocantidad,ventas)
+
+                case 2:
+                    servicios.mostrar_inventario(inventarios)
+
+                case 3:
+                    buscador=input("diga el nombre del producto que esta buscando: ")
+                    servicios.buscar_producto(inventarios,buscador)
+
+                case 4:
+                    encontrado=input("ingrese el producto que se vendio ")
+                    cantnew=int(input("dijite la cantidad que se vendio: "))
+                    servicios.actualizar_producto(inventarios,encontrado,cantnew,ventastotal)
+
+                case 5:
+                    eliminado=input("dijite el producto que desee eliminar")
+                    servicios.eliminar_producto(inventarios,eliminado)
+
+                case 6:
+                    servicios.calcular_estadisticas(inventarios)
+
+                case 7:
+                    break
+    except ValueError:
+        print("ingrese un valor correcto,intente de nuevo")
+
+
+
