@@ -148,3 +148,67 @@ function buy(product, price) {
   localStorage.setItem("orders", JSON.stringify(orders));
   alert("Pedido realizado correctamente");
 }
+
+
+
+
+
+Admin New 
+
+// Obtener productos desde localStorage
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// Renderizar productos
+function renderProducts() {
+  const list = document.getElementById("productList");
+  list.innerHTML = "";
+
+  products.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = p.name + " - $" + p.price;
+    list.appendChild(li);
+  });
+}
+
+// Agregar producto
+function addProduct() {
+  const name = document.getElementById("productName").value;
+  const price = document.getElementById("productPrice").value;
+
+  if (name === "" || price === "") {
+    alert("Completa todos los campos");
+    return;
+  }
+
+  products.push({ name: name, price: price });
+  localStorage.setItem("products", JSON.stringify(products));
+
+  renderProducts();
+
+  document.getElementById("productName").value = "";
+  document.getElementById("productPrice").value = "";
+}
+
+// Mostrar pedidos
+function showOrders() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const list = document.getElementById("ordersList");
+  list.innerHTML = "";
+
+  if (orders.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "No hay pedidos";
+    list.appendChild(li);
+    return;
+  }
+
+  orders.forEach(o => {
+    const li = document.createElement("li");
+    li.textContent =
+      o.client + " - " + o.product + " - $" + o.price;
+    list.appendChild(li);
+  });
+}
+
+// Cargar productos al iniciar
+renderProducts();
