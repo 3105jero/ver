@@ -98,3 +98,53 @@ function buy(product, price) { const orders = JSON.parse(localStorage.getItem("o
 orders.push({ client: user, product: product, price: price });
 
 localStorage.setItem("orders", JSON.stringify(orders)); alert("Pedido realizado"); }
+
+
+
+
+
+//clientes new
+
+// Obtener productos desde localStorage
+const products = JSON.parse(localStorage.getItem("products")) || [];
+const list = document.getElementById("products");
+
+list.innerHTML = "";
+
+// Mostrar productos con botón comprar
+products.forEach(p => {
+  const li = document.createElement("li");
+
+  // Texto del producto
+  const text = document.createElement("span");
+  text.textContent = `${p.name} - $${p.price} `;
+
+  // Botón comprar
+  const btn = document.createElement("button");
+  btn.textContent = "Comprar";
+  btn.onclick = () => buy(p.name, p.price);
+
+  li.appendChild(text);
+  li.appendChild(btn);
+  list.appendChild(li);
+});
+
+// Función comprar
+function buy(product, price) {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const user = localStorage.getItem("loggedUser");
+
+  if (!user) {
+    alert("Debes iniciar sesión");
+    return;
+  }
+
+  orders.push({
+    client: user,
+    product: product,
+    price: price
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  alert("Pedido realizado correctamente");
+}
